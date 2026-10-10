@@ -57,31 +57,20 @@ avl-tree-stl-project/
 5. Branch Strategy
 
 main: 검증이 완료된 통합 코드
-
 feature/avl-node: 노드 구조 및 균형 조정
-
 feature/insert-find: 삽입 및 탐색
-
 feature/basic-operations: 기본 연산
-
 feature/rank-erase: 순위 및 삭제 연산
-
 feature/tests: 테스트 코드
-
 기능별 브랜치에서 개발하고 Pull Request 및 코드 리뷰를 거쳐 main에 병합한다.
 
 6. Development Rules
 
 기능별 브랜치를 사용한다.
-
 모든 변경 사항은 Pull Request로 제출한다.
-
 Pull Request마다 최소 1명의 Reviewer를 지정한다.
-
 코드 리뷰에서 발견된 문제를 수정한 후 병합한다.
-
 코드 스타일과 라이선스 주석을 일관되게 유지한다.
-
 각 기능의 정상 동작 및 예외 상황을 테스트한다.
 
 7. Complexity Requirements
