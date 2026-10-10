@@ -57,10 +57,15 @@ avl-tree-stl-project/
 5. Branch Strategy
 
 main: 검증이 완료된 통합 코드
+
 feature/avl-node: 노드 구조 및 균형 조정
+
 feature/insert-find: 삽입 및 탐색
+
 feature/basic-operations: 기본 연산
+
 feature/rank-erase: 순위 및 삭제 연산
+
 feature/tests: 테스트 코드
 기능별 브랜치에서 개발하고 Pull Request 및 코드 리뷰를 거쳐 main에 병합한다.
 
