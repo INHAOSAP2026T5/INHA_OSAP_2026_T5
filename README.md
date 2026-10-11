@@ -1,4 +1,4 @@
-# avl-treel-project
+# INHA_OSAP_2026_T5
 AVL Tree implementation of STL set operations in C++
 AVL Tree STL Set Project
 
