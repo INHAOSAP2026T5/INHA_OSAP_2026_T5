@@ -22,62 +22,73 @@
  * Author: [Author Name]
  * Date: 2026-11-09
  */
-#include <iostream>
-#include <string>
-#include <utility>
 #include "AVLTree.h"
 
-using namespace std;
+// 이 파일에는 함수의 구현을 작성한다.
+// 현재는 팀원별 구현을 위해 선언부와 구현 위치만 준비한 상태이다.
+//
+// 구현 대상:
+// 1. 생성자 / 소멸자
+// 2. getHeight, getSubtreeSize, updateNode, getBalanceFactor
+// 3. rotateLeft, rotateRight, rebalance
+// 4. findNode, findMinimumNode, findMaximumNode, getDepth
+// 5. find, insert, empty, size, minimum, maximum, rank, erase
+int AVLTree::insert(int key) {
+    AVLNode* parent = nullptr;
+    AVLNode* current = root;
 
-int main() {
-    AVLTree tree;
-    string command;
-    int key;
+    // 1. 삽입할 위치 탐색 및 중복 검사
+    while (current != nullptr) {
+        parent = current;
 
-    // 명령어를 입력받아 해당 AVLTree 함수를 호출한다.
-    // 입력은 EOF가 들어올 때까지 반복한다.
-    while (cin >> command) {
-        if (command == "Find") {
-            cin >> key;
-            cout << tree.find(key) << '\n';
+        if (key == current->key) {
+            return -1;  // 중복 키는 삽입하지 않음
         }
-        else if (command == "Insert") {
-            cin >> key;
-            cout << tree.insert(key) << '\n';
-        }
-        else if (command == "Empty") {
-            cout << (tree.empty() ? 1 : 0) << '\n';
-        }
-        else if (command == "Size") {
-            cout << tree.size() << '\n';
-        }
-        else if (command == "Minimum") {
-            cin >> key;
-            pair<int, int> result = tree.minimum(key);
-            cout << result.first << ' ' << result.second << '\n';
-        }
-        else if (command == "Maximum") {
-            cin >> key;
-            pair<int, int> result = tree.maximum(key);
-            cout << result.first << ' ' << result.second << '\n';
-        }
-        else if (command == "Rank") {
-            cin >> key;
-            pair<int, int> result = tree.rank(key);
-            if (result.first == -1) {
-                cout << -1 << '\n';
-            } else {
-                cout << result.first << ' ' << result.second << '\n';
-            }
-        }
-        else if (command == "Erase") {
-            cin >> key;
-            cout << tree.erase(key) << '\n';
+        else if (key < current->key) {
+            current = current->left;
         }
         else {
-            // 정의되지 않은 명령어는 과제 명세에 없으므로 별도 출력하지 않는다.
+            current = current->right;
         }
     }
 
-    return 0;
+    // 2. 새로운 노드 생성
+    AVLNode* newNode = new AVLNode{
+        key,
+        1,          // height
+        1,          // subtreeSize
+        nullptr,    // left
+        nullptr,    // right
+        parent      // parent
+    };
+
+    // 3. 부모 노드와 연결
+    if (parent == nullptr) {
+        root = newNode;  // 트리가 비어 있는 경우
+    }
+    else if (key < parent->key) {
+        parent->left = newNode;
+    }
+    else {
+        parent->right = newNode;
+    }
+
+    nodeCount++;
+
+    // 4. 조상 노드들의 높이 및 균형 복구
+    if (parent != nullptr) {
+        rebalance(parent);
+    }
+
+    // 5. 균형 복구 이후 삽입된 노드의 깊이 반환
+    return getDepth(findNode(key));
 }
+// 6. destroyTree
+//
+// 주의:
+// - 과제 명세에서 외부 노드(nullptr)의 높이는 0이다.
+// - 루트의 깊이는 0이다.
+// - Minimum/Maximum은 전달받은 key 노드가 루트인 부분 트리에서 수행한다.
+// - Rank는 (노드 깊이, 순위)를 반환한다.
+// - Find/Insert/Erase는 깊이를 반환하고, 대상이 없거나 중복 삽입이면 -1을 반환한다.
+// - 실제 함수 정의는 팀원들이 아래에 추가한다.
