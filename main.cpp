@@ -20,64 +20,54 @@
  * SPDX-License-Identifier: MIT
  *
  * Author: [Author Name]
- * Date: 2026-11-09
+ * Date: 2026-11-12
  */
+#include "AVLTree.h"
+
 #include <iostream>
 #include <string>
 #include <utility>
-#include "AVLTree.h"
-
-using namespace std;
 
 int main() {
     AVLTree tree;
-    string command;
+    std::string command;
     int key;
 
-    // 명령어를 입력받아 해당 AVLTree 함수를 호출한다.
-    // 입력은 EOF가 들어올 때까지 반복한다.
-    while (cin >> command) {
+    // EOF가 입력될 때까지 명령어를 읽고 해당 기능을 실행한다.
+    while (std::cin >> command) {
         if (command == "Find") {
-            cin >> key;
-            cout << tree.find(key) << '\n';
-        }
-        else if (command == "Insert") {
-            cin >> key;
-            cout << tree.insert(key) << '\n';
-        }
-        else if (command == "Empty") {
-            cout << (tree.empty() ? 1 : 0) << '\n';
-        }
-        else if (command == "Size") {
-            cout << tree.size() << '\n';
-        }
-        else if (command == "Minimum") {
-            cin >> key;
-            pair<int, int> result = tree.minimum(key);
-            cout << result.first << ' ' << result.second << '\n';
-        }
-        else if (command == "Maximum") {
-            cin >> key;
-            pair<int, int> result = tree.maximum(key);
-            cout << result.first << ' ' << result.second << '\n';
-        }
-        else if (command == "Rank") {
-            cin >> key;
-            pair<int, int> result = tree.rank(key);
+            std::cin >> key;
+            std::cout << tree.Find(key) << '\\n';
+        } else if (command == "Insert") {
+            std::cin >> key;
+            std::cout << tree.Insert(key) << '\\n';
+        } else if (command == "Empty") {
+            std::cout << (tree.Empty() ? 1 : 0) << '\\n';
+        } else if (command == "Size") {
+            std::cout << tree.Size() << '\\n';
+        } else if (command == "Minimum") {
+            std::cin >> key;
+            std::pair<int, int> result = tree.Minimum(key);
+            std::cout << result.first << ' ' << result.second << '\\n';
+        } else if (command == "Maximum") {
+            std::cin >> key;
+            std::pair<int, int> result = tree.Maximum(key);
+            std::cout << result.first << ' ' << result.second << '\\n';
+        } else if (command == "Rank") {
+            std::cin >> key;
+            std::pair<int, int> result = tree.Rank(key);
+
             if (result.first == -1) {
-                cout << -1 << '\n';
+                std::cout << -1 << '\\n';
             } else {
-                cout << result.first << ' ' << result.second << '\n';
+                std::cout << result.first << ' ' << result.second << '\\n';
             }
-        }
-        else if (command == "Erase") {
-            cin >> key;
-            cout << tree.erase(key) << '\n';
-        }
-        else {
-            // 정의되지 않은 명령어는 과제 명세에 없으므로 별도 출력하지 않는다.
+        } else if (command == "Erase") {
+            std::cin >> key;
+            std::cout << tree.Erase(key) << '\\n';
         }
     }
 
     return 0;
 }
+

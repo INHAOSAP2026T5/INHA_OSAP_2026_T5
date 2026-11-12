@@ -19,7 +19,7 @@
  *
  * SPDX-License-Identifier: MIT
  *
- * Author: [Author Name]
+ * Author: [BAEKHAHYUN]
  * Date: 2026-11-09
  */
 #include "AVLTree.h"
@@ -33,30 +33,30 @@
 // 3. rotateLeft, rotateRight, rebalance
 // 4. findNode, findMinimumNode, findMaximumNode, getDepth
 // 5. find, insert, empty, size, minimum, maximum, rank, erase
-int AVLTree::insert(int key) {
+int AVLTree::Insert(int key) {
     AVLNode* parent = nullptr;
     AVLNode* current = root;
 
-    // 1. 삽입할 위치 탐색 및 중복 검사
+    // 1. 삽입 위치 탐색 및 중복 키 검사
     while (current != nullptr) {
         parent = current;
 
         if (key == current->key) {
-            return -1;  // 중복 키는 삽입하지 않음
+            return -1;
         }
-        else if (key < current->key) {
+
+        if (key < current->key) {
             current = current->left;
-        }
-        else {
+        } else {
             current = current->right;
         }
     }
 
     // 2. 새로운 노드 생성
-    AVLNode* newNode = new AVLNode{
+    AVLNode* new_node = new AVLNode{
         key,
         1,          // height
-        1,          // subtreeSize
+        1,          // subtree_size
         nullptr,    // left
         nullptr,    // right
         parent      // parent
@@ -64,24 +64,22 @@ int AVLTree::insert(int key) {
 
     // 3. 부모 노드와 연결
     if (parent == nullptr) {
-        root = newNode;  // 트리가 비어 있는 경우
-    }
-    else if (key < parent->key) {
-        parent->left = newNode;
-    }
-    else {
-        parent->right = newNode;
+        root = new_node;
+    } else if (key < parent->key) {
+        parent->left = new_node;
+    } else {
+        parent->right = new_node;
     }
 
-    nodeCount++;
+    ++node_count;
 
-    // 4. 조상 노드들의 높이 및 균형 복구
+    // 4. 조상 노드의 높이 및 균형 복구
     if (parent != nullptr) {
-        rebalance(parent);
+        Rebalance(parent);
     }
 
-    // 5. 균형 복구 이후 삽입된 노드의 깊이 반환
-    return getDepth(findNode(key));
+    // 5. 회전이 완료된 트리에서 삽입 노드의 깊이 반환
+    return GetDepth(FindNode(key));
 }
 // 6. destroyTree
 //
