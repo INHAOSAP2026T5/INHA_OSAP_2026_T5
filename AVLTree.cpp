@@ -158,6 +158,121 @@ void AVLTree::DestroyTree(AVLNode* node) {
     //4. 현재 노드 해제 (후위 순회)
     delete node;
 }
+
+int AVLTree::GetHeight(const AVLNode* node) const {
+  // 과제 명세에 따라 외부 노드(nullptr)의 높이는 0이다.
+  if (node == nullptr) {
+    return 0;
+  }
+  return node->height;
+}
+
+int AVLTree::GetSubtreeSize(const AVLNode* node) const {
+  if (node == nullptr) {
+    return 0;
+  }
+  return node->subtree_size;
+}
+
+void AVLTree::UpdateNode(AVLNode* node) {
+  if (node == nullptr) {
+    return;
+  }
+  
+  int left_height = GetHeight(node->left);
+  int right_height = GetHeight(node->right);
+  // 이항 연산자 전후 공백 유지
+  node->height = ((left_height > right_height) ? left_height : right_height) + 1;
+  
+  int left_size = GetSubtreeSize(node->left);
+  int right_size = GetSubtreeSize(node->right);
+  node->subtree_size = left_size + right_size + 1;
+}
+
+int AVLTree::GetBalanceFactor(const AVLNode* node) const {
+  if (node == nullptr) {
+    return 0;
+  }
+  return GetHeight(node->left) - GetHeight(node->right);
+}
+
+AVLNode* AVLTree::RotateLeft(AVLNode* node) {
+  AVLNode* right_child = node->right;
+  AVLNode* right_left = right_child->left;
+  
+  right_child->left = node;
+  node->right = right_left;
+  
+  // 부모 포인터 업데이트
+  right_child->parent = node->parent;
+  node->parent = right_child;
+  if (right_left != nullptr) {
+    right_left->parent = node;
+  }
+  
+  UpdateNode(node);
+  UpdateNode(right_child);
+  
+  return right_child;
+}
+
+AVLNode* AVLTree::RotateRight(AVLNode* node) {
+  AVLNode* left_child = node->left;
+  AVLNode* left_right = left_child->right;
+  
+  left_child->right = node;
+  node->left = left_right;
+  
+  // 부모 포인터 업데이트
+  left_child->parent = node->parent;
+  node->parent = left_child;
+  if (left_right != nullptr) {
+    left_right->parent = node;
+  }
+  
+  UpdateNode(node);
+  UpdateNode(left_child);
+  
+  return left_child;
+}
+
+void AVLTree::Rebalance(AVLNode* node) {
+  while (node != nullptr) {
+    UpdateNode(node);
+    int balance = GetBalanceFactor(node);
+    
+    AVLNode* next_parent = node->parent;
+    AVLNode* new_sub_root = node;
+    
+    if (balance > 1) {
+      // y의 두 자식 높이가 같을 때(balance == 0)는 Single Rotation(LL)을 수행
+      if (GetBalanceFactor(node->left) < 0) {
+        node->left = RotateLeft(node->left);
+      }
+      new_sub_root = RotateRight(node);
+    } else if (balance < -1) {
+      // y의 두 자식 높이가 같을 때(balance == 0)는 Single Rotation(RR)을 수행
+      if (GetBalanceFactor(node->right) > 0) {
+        node->right = RotateRight(node->right);
+      }
+      new_sub_root = RotateLeft(node);
+    }
+    
+    // 회전이 발생하여 서브트리의 루트가 변경된 경우 부모와 연결
+    if (new_sub_root != node) {
+      if (next_parent == nullptr) {
+        root = new_sub_root;
+      } else if (next_parent->left == node) {
+        next_parent->left = new_sub_root;
+      } else {
+        next_parent->right = new_sub_root;
+      }
+    }
+    
+    // 조상 노드로 거슬러 올라가며 균형 복구 계속 진행
+    node = next_parent;
+  }
+}
 // 주의:
 // - 과제 명세에서 외부 노드(nullptr)의 높이는 0이다.
 // - 루트의 깊이는 0이다.
