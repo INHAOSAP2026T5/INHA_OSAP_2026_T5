@@ -136,7 +136,7 @@ int AVLTree::GetDepth(const AVLNode* node)const {
         return -1;
     }
     //2. 깊이 초기화
-    AVLNode* current = node;
+    const AVLNode* current = node;
     int depth=0;
     //3. 부모 노드로 이동
     while (current->parent != nullptr) {
@@ -154,7 +154,7 @@ void AVLTree::DestroyTree(AVLNode* node) {
     //2. 왼쪽 서브트리 해제
     DestroyTree(node->left);
     //3. 오른쪽 서브트리 해제
-    DestroyTree(node->right);z
+    DestroyTree(node->right);
     //4. 현재 노드 해제 (후위 순회)
     delete node;
 }
