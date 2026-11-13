@@ -33,6 +33,7 @@
 // 3. rotateLeft, rotateRight, rebalance
 // 4. findNode, findMinimumNode, findMaximumNode, getDepth
 // 5. find, insert, empty, size, minimum, maximum, rank, erase
+//6. destoryTree
 int AVLTree::Insert(int key) {
     AVLNode* parent = nullptr;
     AVLNode* current = root;
@@ -81,8 +82,82 @@ int AVLTree::Insert(int key) {
     // 5. 회전이 완료된 트리에서 삽입 노드의 깊이 반환
     return GetDepth(FindNode(key));
 }
-// 6. destroyTree
-//
+
+AVLNode* AVLTree::FindNode(int key)const {
+    //1. 현재 노드 설정: 루트 노드(루트 노드 부터 탐색 진행)
+    AVLNode* current = root;
+
+    //2. 노드가 존재하는 동안 반복
+    while (current != nullptr) {
+        //3. key가 일치하면 반환
+        if (key == current->key) {
+            return current;
+        }
+        //4. 키를 비교하여 이동
+        if (key < current->key) {
+            current = current->left;
+        }
+        else {
+            current = current->right;
+        }
+    }
+    //5. 노드를 찾지 못했을 시
+    return nullptr;
+}
+
+AVLNode* AVLTree::FindMinimumNode(AVLNode* node)const {
+    //1. null 검사
+    if (node == nullptr) {
+        return nullptr;
+    }
+    //2. 왼쪽 자식이 존재하는 동안 반복
+    while (node->left != nullptr) {
+        node = node->left;
+    }
+    //3. 최솟값 반환 (가장 왼쪽 노드가 최솟값)
+    return node;
+}
+
+AVLNode* AVLTree::FindMaximumNode(AVLNode* node)const {
+    //1. null 검사
+    if (node == nullptr) {
+        return nullptr;
+    }
+    //2. 오른쪽 자식이 존재하는 동안 반복
+    while (node->right != nullptr) {
+        node = node->right;
+    }
+    //3. 최댓값 반환(가장 오른쪽 노드가 최댓값)
+    return node;
+}
+int AVLTree::GetDepth(const AVLNode* node)const {
+    //1. null 검사
+    if (node == nullptr) {
+        return -1;
+    }
+    //2. 깊이 초기화
+    AVLNode* current = node;
+    int depth=0;
+    //3. 부모 노드로 이동
+    while (current->parent != nullptr) {
+        current = current->parent;
+        ++depth;
+    }
+    //4. 깊이 반환
+    return depth;
+}
+void AVLTree::DestroyTree(AVLNode* node) {
+    //1. null 검사
+    if (node == nullptr) {
+        return;
+    }
+    //2. 왼쪽 서브트리 해제
+    DestroyTree(node->left);
+    //3. 오른쪽 서브트리 해제
+    DestroyTree(node->right);z
+    //4. 현재 노드 해제 (후위 순회)
+    delete node;
+}
 // 주의:
 // - 과제 명세에서 외부 노드(nullptr)의 높이는 0이다.
 // - 루트의 깊이는 0이다.
