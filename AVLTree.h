@@ -20,38 +20,39 @@
  * SPDX-License-Identifier: MIT
  *
  * Author: [Author Name]
- * Date: 2026-11-09
+ * Date: 2026-11-12
  */
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
 
-#include <utility>
 #include "AVLNode.h"
+
+#include <utility>
 
 class AVLTree {
 private:
     AVLNode* root;
-    int nodeCount;
+    int node_count;
 
     // 높이 및 부분 트리 크기 관리
-    int getHeight(const AVLNode* node) const;
-    int getSubtreeSize(const AVLNode* node) const;
-    void updateNode(AVLNode* node);
-    int getBalanceFactor(const AVLNode* node) const;
+    int GetHeight(const AVLNode* node) const;
+    int GetSubtreeSize(const AVLNode* node) const;
+    void UpdateNode(AVLNode* node);
+    int GetBalanceFactor(const AVLNode* node) const;
 
     // 회전 및 균형 복구
-    AVLNode* rotateLeft(AVLNode* node);
-    AVLNode* rotateRight(AVLNode* node);
-    void rebalance(AVLNode* node);
+    AVLNode* RotateLeft(AVLNode* node);
+    AVLNode* RotateRight(AVLNode* node);
+    void Rebalance(AVLNode* node);
 
     // 내부 탐색 보조 함수
-    AVLNode* findNode(int key) const;
-    AVLNode* findMinimumNode(AVLNode* node) const;
-    AVLNode* findMaximumNode(AVLNode* node) const;
-    int getDepth(const AVLNode* node) const;
+    AVLNode* FindNode(int key) const;
+    AVLNode* FindMinimumNode(AVLNode* node) const;
+    AVLNode* FindMaximumNode(AVLNode* node) const;
+    int GetDepth(const AVLNode* node) const;
 
     // 메모리 해제
-    void destroyTree(AVLNode* node);
+    void DestroyTree(AVLNode* node);
 
 public:
     AVLTree();
@@ -62,16 +63,16 @@ public:
     AVLTree& operator=(const AVLTree& other) = delete;
 
     // 기본 기능
-    int find(int key) const;
-    int insert(int key);
-    bool empty() const;
-    int size() const;
-    std::pair<int, int> minimum(int key) const;
-    std::pair<int, int> maximum(int key) const;
+    int Find(int key) const;
+    int Insert(int key);
+    bool Empty() const;
+    int Size() const;
+    std::pair<int, int> Minimum(int key) const;
+    std::pair<int, int> Maximum(int key) const;
 
     // 고급 기능
-    std::pair<int, int> rank(int key) const;
-    int erase(int key);
+    std::pair<int, int> Rank(int key) const;
+    int Erase(int key);
 };
 
 #endif // AVL_TREE_H

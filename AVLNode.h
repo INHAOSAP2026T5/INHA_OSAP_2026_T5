@@ -20,20 +20,20 @@
  * SPDX-License-Identifier: MIT
  *
  * Author: [Author Name]
- * Date: 2026-11-09
+ * Date: 2026-11-12
  */
 #ifndef AVL_NODE_H
 #define AVL_NODE_H
 
 // AVL 트리의 각 노드를 표현한다.
 struct AVLNode {
-    int key;                 // 노드에 저장되는 32-bit 정수 키
-    int height;              // 해당 노드를 루트로 하는 부분 트리의 높이
-    int subtreeSize;         // 해당 노드를 루트로 하는 부분 트리의 노드 수
+    int key;
+    int height;
+    int subtree_size;
 
-    AVLNode* left;           // 왼쪽 자식
-    AVLNode* right;          // 오른쪽 자식
-    AVLNode* parent;         // 부모 노드
+    AVLNode* left;
+    AVLNode* right;
+    AVLNode* parent;
 };
 
 #endif // AVL_NODE_H
